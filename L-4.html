@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="libs/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="libs/vue1.0.js"></script>
+</head>
+<script>
+    window.onload=function(){
+        new Vue({
+            el:'#box',
+            data:{
+
+            },
+            methods:{
+                click:function () {
+                    alert(1);
+                },
+                click2:function () {
+                    alert(2);
+                },
+                click3:function (ev) {
+                    alert(ev.keyCode);
+                }
+            }
+        })
+    }
+</script>
+<body>
+<div class="container">
+    <div id="box" class="text-center">
+        <div style="border: 3px solid #e1e1e1; margin-bottom: 5px;">
+            <div @click="click2">
+                <button type="button" @click.stop="click" class="btn btn-info btn-block">阻止冒泡事件</button>
+            </div>
+            <button type="button" @contextmenu.prevent="click" class="btn btn-default btn-block">阻止默认行为</button>
+        </div>
+        <div>
+            <input type="text" class="form-control" placeholder="键盘监听事件" v-on:keyup.up="click3($event)">
+        </div>
+    </div>
+</div>
+</body>
+</html>

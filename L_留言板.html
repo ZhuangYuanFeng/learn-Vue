@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Title</title>
+    <link href="libs/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="libs/jquery-3.2.1.min.js"></script>
+    <script src="libs/bootstrap.min.js"></script>
+    <script src="libs/vue1.0.js"></script>
+    <script>
+        window.onload = function () {
+            new Vue({
+                el:'#app',
+                data:{
+                    massege:[],
+                    username:'',
+                    age:'',
+                    Now:-100
+                },
+                methods:{
+                    add:function () {
+                        this.massege.push({
+                            name:this.username,
+                            age:this.age
+                        });
+                        this.username = '';
+                        this.age = '';
+                    },
+                    del:function (N) {
+                        if(N == -10){
+                            this.massege = [];
+                        }else{
+                            this.massege.splice(N,1);
+                        }
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<div class="container" id="app">
+    <form role="form">
+        <div class="form-group">
+            <label for="username" class="text-info">name:</label>
+            <input type="text" class="form-control" id="username" v-model="username" placeholder="please input your name">
+        </div>
+        <div class="form-group">
+            <label for="age" class="text-info">age:</label>
+            <input type="text" class="form-control" id="age" v-model="age" placeholder="please input your age">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-block btn-info" type="button" v-on:click="add">ok!</button>
+            <button class="btn btn-block btn-danger" type="reset">reset!</button>
+        </div>
+    </form>
+    <table class="table table-bordered">
+        <caption class="text-info h2 text-center">user message</caption>
+        <tr class="h4">
+            <th class="text-center">Nun</th>
+            <th class="text-center">name</th>
+            <th class="text-center">age</th>
+            <th class="text-center">control</th>
+        </tr>
+        <tr class="text-center" v-for="item in massege">
+            <td>{{$index+1}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.age}}</td>
+            <td><button class="btn btn-danger btn-sm" data-toggle="modal"  data-target="#layer" v-on:click="Now = $index">DEL</button></td>
+        </tr>
+        <tr class="text-center text-muted" v-show="massege.length == 0">
+            <td colspan="4" class="h2">no message...</td>
+        </tr>
+        <tr class="text-center" v-show="massege.length != 0">
+            <td colspan="4"><button class="btn btn-lg btn-danger" v-on:click="del(-10)">delete all</button></td>
+        </tr>
+    </table>
+    <div role="dialog" class="modal fade" id="layer">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="h2 text-danger">Warming!</span>
+                    <button class="close text-right" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body">Are you real want to delete ?</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info text-right" data-dismiss="modal">cancel</button>
+                    <button type="button" class="btn btn-danger text-right" v-on:click="del(Now)" data-dismiss="modal">delete</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

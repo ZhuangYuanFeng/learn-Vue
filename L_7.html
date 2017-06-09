@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>过滤器</title>
+    <link href="libs/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="libs/vue1.0.js"></script>
+    <script>
+        window.onload = function () {
+            new Vue({
+                el:'#box',
+                data:{
+                    fz:{fontSize:'50px'}
+                },
+                methods:{
+
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<div id="box" class="container text-center text-info">
+    <p :style="[fz]">{{'message'|uppercase|lowercase|capitalize}}</p>
+    <p :style="[fz]">{{100|currency '$'}}</p> <!--带参数的过滤器格式： {{message | '参数'}}-->
+
+</div>
+</body>
+</html>

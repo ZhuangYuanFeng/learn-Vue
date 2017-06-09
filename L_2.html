@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .completed{
+            text-decoration: line-through;
+        }
+    </style>
+
+</head>
+<body>
+<div id="app">
+    <task-app :list="tasks"></task-app>
+    <task-app :list="[{body:'second',completed:false}]"></task-app>
+    <task-app :list="[{body:'third',completed:false}]"></task-app>
+</div>
+
+<template id="task-templete">
+    <ul>
+        <li v-on:click="taggle(task)" :class="{'completed':task.completed }" v-for="task in list">
+            {{task.body}}
+        </li>
+    </ul>
+</template>
+
+<script src="libs/vue1.0.js"></script>
+<script>
+    Vue.component('task-app',{
+        template:'#task-templete',
+        props:['list'],
+        methods:{
+            taggle:function (task) {
+                task.completed = !task.completed;
+            }
+        }
+
+    })
+
+    new Vue({
+        el:'#app',
+        data:{
+            tasks:[
+                {body:'first',completed:false},
+                {body:'first',completed:true},
+                {body:'first',completed:false}
+            ]
+        }
+    })
+</script>
+</body>
+</html>

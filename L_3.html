@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <button v-on:click="show">click</button>
+    <ul>
+        <li v-for="value in values" v-show="showed">{{value}}</li>
+    </ul>
+</div>
+<script src="libs/vue1.0.js"></script>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            values:['first','second','third'],
+            showed:true
+        },
+        methods:{
+            show:function () {
+               this.showed = !this.showed;
+            }
+        }
+    })
+</script>
+</body>
+</html>

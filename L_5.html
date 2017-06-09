@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="libs/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="libs/vue1.0.js"></script>
+    <style>
+        .col{
+            color: #4cae4c;
+        }
+        .size{
+            font-size: 50px;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            new Vue ({
+                el:'#box',
+                data:{
+                    font_color:'col',
+                    font_size:'size',
+                    bg:{backgroundColr:'#e1'},
+                    bz:{fontSize:'50px'}
+                },
+                methods:{
+
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<div id="box">
+    <p :class="[font_color,font_size]">class!!!</p>
+    <p :style="[bg,bz]">style!!!</p>
+</div>
+</body>
+</html>

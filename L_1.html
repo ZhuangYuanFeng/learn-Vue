@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="libs/bootstrap.min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="app" class="container text-center">
+    <counter view="likes" color="green"></counter>
+    <counter view="dislikes" color="red "></counter>
+</div>
+<template id="template-counter">
+    <div>
+        <h1>{{view}}</h1>
+        <button v-on:click="count += 1" style="background: {{color}}">submit {{count}}</button> //失败了，修改button的颜色；
+    </div>
+</template>
+<script src="libs/vue1.0.js"></script>
+<script>
+    Vue.component('counter',{
+        template:'#template-counter',
+        props:['view','color'],
+        data:function () {
+            return{
+                count:0
+            };
+        }
+    });
+new Vue({
+    el:'#app'
+})
+</script>
+
+</body>
+</html>
