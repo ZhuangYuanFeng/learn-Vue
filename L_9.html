@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jsonp </title>
+    <link href="libs/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="libs/jquery-3.2.1.min.js"></script>
+    <script src="libs/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="libs/vue/vue1.0.js"></script>
+    <script src="libs/vue/vue-resource2.js"></script>
+    <!--好搜与百度的连接-->
+    <!--//https://sug.so.360.cn/suggest?callback=suggest_so&word=a-->
+    <!--https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=a&cb=show-->
+    <script>
+        window.onload=function(){
+            new Vue({
+                el:'#box',
+                data:{
+
+                },
+                methods:{
+                    get1:function(){
+                        this.$http.jsonp('https://sug.so.360.cn/suggest',{
+                            word:'a'
+                        }).then(function(res){
+                            alert(res.data.s);
+                        },function(res){
+                            alert(res.status);
+                        });
+                    },
+                    get2:function(){
+                        this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
+                            wd:'a'
+                        },{
+                            jsonp:'cb'
+                        }).then(function(res){
+                            alert(res.data.s);
+                        },function(res){
+                            alert(res.status);
+                        });
+                    }
+                }
+            });
+        };
+    </script>
+</head>
+<body>
+<div id="box">
+    <div class="container text-center">
+        <button class="btn btn-block btn-info" type="button" @click="get1">360</button>
+        <hr/>
+        <button class="btn btn-block btn-danger" type="button" @click="get2">baidu</button>
+    </div>
+</div>
+</body>
+</html>

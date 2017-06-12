@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jsonp </title>
+    <link href="libs/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="libs/jquery-3.2.1.min.js"></script>
+    <script src="libs/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="libs/vue/vue1.0.js"></script>
+    <script src="libs/vue/vue-resource2.js"></script>
+    <!--好搜与百度的连接-->
+    <!--//https://sug.so.360.cn/suggest?callback=suggest_so&word=a-->
+    <!--https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=a&cb=show-->
+    <!--https://www.baidu.com/s?wd=a-->
+    <style>
+        .bg{
+            background-color: #e1e1e1;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            new Vue({
+                el:'#box',
+                data:{
+                    test:[],
+                    txt:'',
+                    now:-1
+                },
+                methods:{
+                    get:function(ev){
+                        if(ev.keyCode == 13){
+//                            alert(1);
+                            window.open('https://www.baidu.com/s?wd='+this.txt);
+                            this.txt = '';
+                        }
+                        if(ev.keyCode == 38 || ev.keyCode == 40){
+                            return;
+                        }
+                        this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
+                            wd:this.txt
+                        },{
+                            jsonp:'cb'
+                        }).then(function(res){
+                            this.test = res.data.s;
+//                            alert(res.data.s);
+                        },function(res){
+                            this.test = res.status;
+                        });
+//                        alert(1);
+                    },
+                    changeDown:function () {
+                        this.now++;
+                        if(this.now == this.test.length){
+                            this.now = -1;
+                        }
+                        this.txt = this.test[this.now];
+                    },
+                    changeUp:function () {
+                        this.now--;
+                        if(this.now == -2){
+                            this.now = this.test.length-1;
+                        }
+                        this.txt = this.test[this.now];
+                    },
+                    search:function () {
+                        window.open('https://www.baidu.com/s?wd='+this.txt);
+                        this.txt = '';
+                    }
+                }
+            });
+        };
+    </script>
+</head>
+<body>
+<div id="box">
+    <div class="container">
+        <div class="container" style="position: relative;margin-top: 250px;"></div>
+        <div class="container text-center">
+            <p class="text-center text-muted">
+                <span class=" h1">Search</span>&nbsp;&nbsp;
+                <span class="glyphicon glyphicon-search btn-lg text-info" aria-hidden="true"></span>
+            </p>
+            <br/>
+        </div>
+            <div class="form-group form-group-lg">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="please input content"
+                           @keyup="get($event )" v-model="txt" @keydown.down="changeDown" @keydown.up.prevent="changeUp">
+                    <div class="input-group-addon">
+                        <a @click="search" style="cursor:pointer;">
+                            <span class="glyphicon glyphicon-search">&nbsp;GO</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="panel panel-body">
+                    <h4 class="h4 text-info text-center" v-show="test.length == 0">No Content...</h4>
+                    <table class="table table-bordered table-hover">
+                        <tr v-for="value in test">
+                            <td :class="{active:$index == now}">{{value}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+    </div>
+</div>
+</body>
+</html>
